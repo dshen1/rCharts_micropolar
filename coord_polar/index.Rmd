@@ -19,7 +19,7 @@ url: {lib: ../libraries}
 iframe {height: 420px; width: 620px}
 </style>
 
-## Micropolar Extended Line Plot Example
+## Cartesian and Polar Systems - micropolar linePlot
 
 ```{r message = F, warning = F, error = F, echo = F, tidy = F, cache = F}
 require(knitr)
