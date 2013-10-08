@@ -1,23 +1,49 @@
 ---
 title       : rCharts
-author      : Timely Portfolio
-framework   : minimal
-highlighter : prettify
-hitheme     : twitter-bootstrap
-mode        : selfcontained
-github      : {user: rcharts, repo: howitworks, branch: gh-pages}
-widgets     : [disqus, ganalytics]
+author: Timely Portfolio
+github: {user: timelyportfolio, repo: rCharts_micropolar, branch: "gh-pages"}
+framework: bootstrap
+mode: selfcontained
+highlighter: prettify
+hitheme: twitter-bootstrap
 assets:
-  css: 
-  - "http://fonts.googleapis.com/css?family=PT+Sans"
-  - "../assets/css/app.css"
-  - "../assets/css/gh-buttons.css"
-url: {lib: ../libraries}
+  css:
+  - "http://fonts.googleapis.com/css?family=Raleway:300"
+  - "http://fonts.googleapis.com/css?family=Oxygen"
 ---
-
+  
 <style>
+iframe{
+  height:450px;
+  width:900px;
+  margin:auto auto;
+}
+
+body{
+  font-family: 'Oxygen', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Raleway', sans-serif;
+}
+
+.container { width: 900px; }
+
+h3 {
+  background-color: #D4DAEC;
+    text-indent: 100px; 
+}
+
+h4 {
+  text-indent: 100px;
+}
+
 iframe {height: 420px; width: 620px}
 </style>
+  
+<a href="https://github.com/timelyportfolio/rCharts_micropolar"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
 ## Cartesian and Polar Systems - micropolar linePlot
 
@@ -89,7 +115,7 @@ autoplot(managers[,1]) + coord_polar() +
   labs( title = "Returns with Polar Coordinates" ) + xlab( NULL ) + ylab (NULL)
 ```
 
-Until yesterday, getting an interactive `d3js` version required an inordinate amount of work.  Now we have [`micropolar`](http://micropolar.org) from Chris Viau that was quickly made accessible by `rCharts` author Ramnath Vaidyanathan and detailed [here](http://rcharts.io/howitworks/micropolar).
+Until yesterday, getting an interactive `d3js` version required an inordinate amount of work.  Now we have [`micropolar`](http://micropolar.org) from Chris Viau.  `rCharts` author Ramnath Vaidyanathan quickly made `micropolar` accessible as detailed [here](http://rcharts.io/howitworks/micropolar).  Let's see how we can use it with our return data.
 
 ```{r}
 retData <- data.frame(
