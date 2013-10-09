@@ -49,7 +49,7 @@ As I continue my exploration of all the use cases for Polar Coordinates, I found
 
 ![Nightingale Causes of Mortality](http://upload.wikimedia.org/wikipedia/commons/1/17/Nightingale-mortality.jpg)
 
-I then rediscovered this nice listing of [R datasets](http://vincentarelbundock.github.io/Rdatasets/index.html) which had a [detailed post](http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html) on the data behind Florence Nightingale's coxcomb plot of mortality during the Crimean War.  The [post](http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html) also contained `ggplot2` code to make a static coxcomb plot from R.
+I then rediscovered this nice listing of [R datasets](http://vincentarelbundock.github.io/Rdatasets/index.html) which had a [detailed post](http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html) on the data behind Florence Nightingale's coxcomb plot of mortality during the Crimean War.
 
 With the new [`micropolar` libary](http://micropolar.org) and [rCharts](http://rcharts.io), we should be able to produce an interactive [`d3js`](http://d3js.org) version.  You might notice this is not exactly the same, so consider it a work in progress.  However, here is how you can get close with a few lines of R code.
 
@@ -215,7 +215,7 @@ cat(nightPlot$html(chartId="chart2"))
 
 
 ### Static Versions from Rdatasets Post
-As a comparison, I just copied the code from [this post]([detailed post](http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html) which offered a couple static `ggplot2` and `base` plots of the Nightingale data.
+As a comparison, I just copied the code from [the `HistData` documentation](http://cran.r-project.org/web/packages/HistData/HistData.pdf) which offered a couple static `ggplot2` and `base` plots of the Nightingale data.
 
 
 ```r
