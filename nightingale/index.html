@@ -86,7 +86,7 @@ h4 {
 
 <p><img src="http://upload.wikimedia.org/wikipedia/commons/1/17/Nightingale-mortality.jpg" alt="Nightingale Causes of Mortality"></p>
 
-<p>I then rediscovered this nice listing of <a href="http://vincentarelbundock.github.io/Rdatasets/index.html">R datasets</a> which had a <a href="http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html">detailed post</a> on the data behind Florence Nightingale&#39;s coxcomb plot of mortality during the Crimean War.  The <a href="http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html">post</a> also contained <code>ggplot2</code> code to make a static coxcomb plot from R.</p>
+<p>I then rediscovered this nice listing of <a href="http://vincentarelbundock.github.io/Rdatasets/index.html">R datasets</a> which had a <a href="http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html">detailed post</a> on the data behind Florence Nightingale&#39;s coxcomb plot of mortality during the Crimean War.</p>
 
 <p>With the new <a href="http://micropolar.org"><code>micropolar</code> libary</a> and <a href="http://rcharts.io">rCharts</a>, we should be able to produce an interactive <a href="http://d3js.org"><code>d3js</code></a> version.  You might notice this is not exactly the same, so consider it a work in progress.  However, here is how you can get close with a few lines of R code.</p>
 
@@ -243,7 +243,7 @@ cat(nightPlot$html(chartId=&quot;chart2&quot;))
 
 <h3>Static Versions from Rdatasets Post</h3>
 
-<p>As a comparison, I just copied the code from <a href="%5Bdetailed%20post%5D(http://vincentarelbundock.github.io/Rdatasets/doc/HistData/Nightingale.html">this post</a> which offered a couple static <code>ggplot2</code> and <code>base</code> plots of the Nightingale data.</p>
+<p>As a comparison, I just copied the code from <a href="http://cran.r-project.org/web/packages/HistData/HistData.pdf">the <code>HistData</code> documentation</a> which offered a couple static <code>ggplot2</code> and <code>base</code> plots of the Nightingale data.</p>
 
 <pre><code class="r">##### original code for reference
 
