@@ -116,36 +116,43 @@ autoplot(managers[,1]) + coord_polar() +
 ![plot of chunk unnamed-chunk-3](assets/fig/unnamed-chunk-3.png) 
 
 
-Until yesterday, getting an interactive `d3js` version required an inordinate amount of work.  Now we have [`micropolar`](http://micropolar.org) from Chris Viau.  `rCharts` author Ramnath Vaidyanathan quickly made `micropolar` accessible as detailed [here](http://rcharts.io/howitworks/micropolar).  Let's see how we can use it with our return data.
+Until yesterday, getting an interactive `d3js` version required an inordinate amount of work.  Now we have [`micropolar`](http://micropolar.org) from Chris Viau.  `rCharts` author Ramnath Vaidyanathan quickly made `micropolar` accessible as detailed [here](http://rcharts.io/howitworks/micropolar).  Let's see how we can use it with our return data.  Unfortunately, the newest release broke the x labels, but I'm sure we will get that worked out.
 
 
 ```r
+make_dataset = function(x, y, data = data){
+  require(rCharts)
+  lapply(toJSONArray2(data[c(x, y)], json = F, names = F), unlist)
+}
+
 retData <- data.frame(
   # 0 to nrow scaled to 360 since 360 deg in circle
   0:(NROW(managers)-1) * 360/NROW(managers),
   # make numeric javascript date
-  as.numeric(as.POSIXct(index(managers[,1])))*1000, 
-  managers[,1]
+  as.numeric(as.POSIXct(index(managers[,1])))*1000,
+  format(index(managers),"%b %Y"),
+  managers[,1],
+  stringsAsFactors=FALSE
 )
-colnames(retData) <- c('x','date','y')
+colnames(retData) <- c('x','date','month','y')
+#retData$jsdate=lapply(retData$date,function(x){return(paste0("#!new Date(",x,")!#"))})
 retLine <- rCharts$new()
 retLine$setLib(
-  'http://rcharts.github.io/howitworks/libraries/widgets/micropolar'
+  'http://timelyportfolio.github.io/howitworks/libraries/widgets/micropolar'
 )
 retLine$set(
   data = make_dataset( x = "x", y= "y", data = retData),
   type = "linePlot",
   originTheta = 0,
   radialAxisTheta = 0,
-  angularDomain = 
-    paste0(
-      "#!d3.time.format('%b %Y')(new Date(",
-      retData$date[seq(1,NROW(retData),6)],
-      "))!#"),
-  #radialDomain = c( 0, 1),
+  #angularDomain = #retData$month,
+  #   paste0(
+  #    "#!d3.time.format('%b %Y')(new Date(",
+  #    retData$date[c(seq(1,NROW(retData),6),NROW(retData))],
+  #   "))!#"),
   angularTicksSuffix = '',
   tickOrientation = "horizontal",
-  minorTicks = 0,
+  #minorTicks = 6,
   flip = TRUE,
   height = 400,
   width = 400

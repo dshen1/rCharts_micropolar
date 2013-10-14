@@ -217,6 +217,12 @@ microLine$set(
 microLine
 
 
+
+make_dataset = function(data = data){
+  lapply(toJSONArray2(data, json = F, names = F), unlist)
+}
+
+
 require(rCharts)
 require(PerformanceAnalytics)
 data(managers)
@@ -227,9 +233,9 @@ retData <- data.frame(
 )
 colnames(retData) <- c('x','date','y')
 retLine <- rCharts$new()
-retLine$setLib( getwd() )
+retLine$setLib( "../libraries/widgets/micropolar" )
 retLine$set(
-  data = make_dataset( x = "x", y= "y", data = retData),
+  data = make_dataset( data = retData[,c("x","y")]),
   type = "linePlot",
   originTheta = 0,
   radialAxisTheta = 0,

@@ -140,34 +140,41 @@ autoplot(managers[,1]) + coord_polar() +
 
 <p><img src="assets/fig/unnamed-chunk-3.png" alt="plot of chunk unnamed-chunk-3"> </p>
 
-<p>Until yesterday, getting an interactive <code>d3js</code> version required an inordinate amount of work.  Now we have <a href="http://micropolar.org"><code>micropolar</code></a> from Chris Viau.  <code>rCharts</code> author Ramnath Vaidyanathan quickly made <code>micropolar</code> accessible as detailed <a href="http://rcharts.io/howitworks/micropolar">here</a>.  Let&#39;s see how we can use it with our return data.</p>
+<p>Until yesterday, getting an interactive <code>d3js</code> version required an inordinate amount of work.  Now we have <a href="http://micropolar.org"><code>micropolar</code></a> from Chris Viau.  <code>rCharts</code> author Ramnath Vaidyanathan quickly made <code>micropolar</code> accessible as detailed <a href="http://rcharts.io/howitworks/micropolar">here</a>.  Let&#39;s see how we can use it with our return data.  Unfortunately, the newest release broke the x labels, but I&#39;m sure we will get that worked out.</p>
 
-<pre><code class="r">retData &lt;- data.frame(
+<pre><code class="r">make_dataset = function(x, y, data = data){
+  require(rCharts)
+  lapply(toJSONArray2(data[c(x, y)], json = F, names = F), unlist)
+}
+
+retData &lt;- data.frame(
   # 0 to nrow scaled to 360 since 360 deg in circle
   0:(NROW(managers)-1) * 360/NROW(managers),
   # make numeric javascript date
-  as.numeric(as.POSIXct(index(managers[,1])))*1000, 
-  managers[,1]
+  as.numeric(as.POSIXct(index(managers[,1])))*1000,
+  format(index(managers),&quot;%b %Y&quot;),
+  managers[,1],
+  stringsAsFactors=FALSE
 )
-colnames(retData) &lt;- c(&#39;x&#39;,&#39;date&#39;,&#39;y&#39;)
+colnames(retData) &lt;- c(&#39;x&#39;,&#39;date&#39;,&#39;month&#39;,&#39;y&#39;)
+#retData$jsdate=lapply(retData$date,function(x){return(paste0(&quot;#!new Date(&quot;,x,&quot;)!#&quot;))})
 retLine &lt;- rCharts$new()
 retLine$setLib(
-  &#39;http://rcharts.github.io/howitworks/libraries/widgets/micropolar&#39;
+  &#39;http://timelyportfolio.github.io/howitworks/libraries/widgets/micropolar&#39;
 )
 retLine$set(
   data = make_dataset( x = &quot;x&quot;, y= &quot;y&quot;, data = retData),
   type = &quot;linePlot&quot;,
   originTheta = 0,
   radialAxisTheta = 0,
-  angularDomain = 
-    paste0(
-      &quot;#!d3.time.format(&#39;%b %Y&#39;)(new Date(&quot;,
-      retData$date[seq(1,NROW(retData),6)],
-      &quot;))!#&quot;),
-  #radialDomain = c( 0, 1),
+  #angularDomain = #retData$month,
+  #   paste0(
+  #    &quot;#!d3.time.format(&#39;%b %Y&#39;)(new Date(&quot;,
+  #    retData$date[c(seq(1,NROW(retData),6),NROW(retData))],
+  #   &quot;))!#&quot;),
   angularTicksSuffix = &#39;&#39;,
   tickOrientation = &quot;horizontal&quot;,
-  minorTicks = 0,
+  #minorTicks = 6,
   flip = TRUE,
   height = 400,
   width = 400
