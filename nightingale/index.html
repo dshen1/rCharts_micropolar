@@ -28,12 +28,11 @@
   <script src="libraries/frameworks/bootstrap/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="libraries/frameworks/bootstrap/js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-    <link rel=stylesheet href="libraries/widgets/micropolar/css/style.css"></link>
-<link rel=stylesheet href="http://fonts.googleapis.com/css?family=Raleway:300"></link>
+    <link rel=stylesheet href="http://fonts.googleapis.com/css?family=Raleway:300"></link>
 <link rel=stylesheet href="http://fonts.googleapis.com/css?family=Oxygen"></link>
 
-  <script src="libraries/widgets/micropolar/js/d3.js"></script>
-<script src="libraries/widgets/micropolar/js/micropolar.js"></script>
+  <script src="../libraries/widgets/micropolar/js/d3.js"></script>
+<script src="../libraries/widgets/micropolar/js/micropolar.js"></script>
 
 </head>
 <body>
@@ -123,11 +122,9 @@ night.df$month &lt;- format(as.Date(Nightingale$Date), &quot;%b %Y&quot;)
 <p>Below is the code to generate the charts above.</p>
 
 <pre><code class="r">require(rCharts)
-add_ext_widgets(path)
 
-
-make_dataset = function(x, y, data = data){
-  lapply(toJSONArray2(data[c(x, y)], json = F, names = F), unlist)
+make_dataset = function(data = data){
+  lapply(toJSONArray2(data, json = F, names = F), unlist)
 }
 
 
@@ -135,7 +132,7 @@ nightPlot &lt;- rCharts$new()
 nightPlot$setLib( path )
 nightPlot$set(
   #remove [1:12] if you want Before and After to show on same plot
-  data = make_dataset( x = &quot;month&quot;, y = &quot;rate&quot;, night.df[1:12,] ),  
+  data = make_dataset( night.df[1:12, c(&quot;month&quot;,&quot;rate&quot;) ] ),  
   #data = make_dataset( x = &quot;Month&quot;, y = &quot;Deaths&quot;, subset(Night, Regime == &quot;Before&quot;) ),
   radialDomain = c( 0, ceiling( max(night.df$rate) ) ),
   angularDomain = 
@@ -181,17 +178,16 @@ cat(nightPlot$html(chartId=&quot;chart1&quot;))
 "id": "chart1" 
 }
   chartParamschart1.containerSelector = '#chart1'
-  micropolar.factory[chartParamschart1.type](
+  micropolar.preset[chartParamschart1.type](
     chartParamschart1
   )
 </script>
 
 <pre><code class="r">
-
 nightPlot &lt;- rCharts$new()
 nightPlot$setLib( path )
 nightPlot$set(
-  data = make_dataset( x = &quot;month&quot;, y = &quot;rate&quot;, night.df[13:24,] ),
+  data = make_dataset( night.df[13:24, c(&quot;month&quot;,&quot;rate&quot;)] ),
   #data = make_dataset( x = &quot;Month&quot;, y = &quot;Deaths&quot;, subset(Night, Regime == &quot;After&quot;) ),
   radialDomain = c( 0, ceiling( max(night.df$rate) ) ),
   angularDomain = 
@@ -236,7 +232,7 @@ cat(nightPlot$html(chartId=&quot;chart2&quot;))
 "id": "chart2" 
 }
   chartParamschart2.containerSelector = '#chart2'
-  micropolar.factory[chartParamschart2.type](
+  micropolar.preset[chartParamschart2.type](
     chartParamschart2
   )
 </script>

@@ -10,9 +10,11 @@ assets:
   css:
   - "http://fonts.googleapis.com/css?family=Raleway:300"
   - "http://fonts.googleapis.com/css?family=Oxygen"
-
+  jshead:
+  - "../libraries/widgets/micropolar/js/d3.js"
+  - "../libraries/widgets/micropolar/js/micropolar.js"
 ---
-  
+
 <style>
 a {
   color: #08c !important
@@ -94,11 +96,9 @@ Below is the code to generate the charts above.
 
 ```r
 require(rCharts)
-add_ext_widgets(path)
 
-
-make_dataset = function(x, y, data = data){
-  lapply(toJSONArray2(data[c(x, y)], json = F, names = F), unlist)
+make_dataset = function(data = data){
+  lapply(toJSONArray2(data, json = F, names = F), unlist)
 }
 
 
@@ -106,7 +106,7 @@ nightPlot <- rCharts$new()
 nightPlot$setLib( path )
 nightPlot$set(
   #remove [1:12] if you want Before and After to show on same plot
-  data = make_dataset( x = "month", y = "rate", night.df[1:12,] ),  
+  data = make_dataset( night.df[1:12, c("month","rate") ] ),  
   #data = make_dataset( x = "Month", y = "Deaths", subset(Night, Regime == "Before") ),
   radialDomain = c( 0, ceiling( max(night.df$rate) ) ),
   angularDomain = 
@@ -152,18 +152,17 @@ cat(nightPlot$html(chartId="chart1"))
 "id": "chart1" 
 }
   chartParamschart1.containerSelector = '#chart1'
-  micropolar.factory[chartParamschart1.type](
+  micropolar.preset[chartParamschart1.type](
     chartParamschart1
   )
 </script>
 
 ```r
 
-
 nightPlot <- rCharts$new()
 nightPlot$setLib( path )
 nightPlot$set(
-  data = make_dataset( x = "month", y = "rate", night.df[13:24,] ),
+  data = make_dataset( night.df[13:24, c("month","rate")] ),
   #data = make_dataset( x = "Month", y = "Deaths", subset(Night, Regime == "After") ),
   radialDomain = c( 0, ceiling( max(night.df$rate) ) ),
   angularDomain = 
@@ -208,7 +207,7 @@ cat(nightPlot$html(chartId="chart2"))
 "id": "chart2" 
 }
   chartParamschart2.containerSelector = '#chart2'
-  micropolar.factory[chartParamschart2.type](
+  micropolar.preset[chartParamschart2.type](
     chartParamschart2
   )
 </script>

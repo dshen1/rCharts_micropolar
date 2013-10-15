@@ -163,7 +163,7 @@ nightPlot$set(
   height = 300,
   width = 300
 )
-cat(nightPlot$html(chartId="chart2"))
+cat(nightPlot$html(chartId="chart3"))
 ```
 
 <script>
