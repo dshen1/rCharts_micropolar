@@ -94,6 +94,17 @@ night.df <- data.frame(
 colnames( night.df ) <- c( "number", "date", "rate" )
 night.df$regime <- c(rep('Before', 12), rep('After', 12))
 night.df$month <- format(as.Date(Nightingale$Date), "%b %Y")
+
+# For some graphs, it is more convenient to reshape death rates to long format
+# we will need in this format for the staced area micropolar chart
+require(reshape)
+Night<- Nightingale[,c(1,8:10)]
+melted <- melt(Night, "Date")
+names(melted) <- c("Date", "Cause", "Deaths")
+melted$Cause <- sub("\\.rate", "", melted$Cause)
+melted$Regime <- ordered( rep(c(rep('Before', 12), rep('After', 12)), 3), levels=c('Before', 'After'))
+Night <- melted
+Night$Month <- format(Night$Date, "%b %Y")
 ```
 
 ###  Interactive Charts
@@ -154,6 +165,57 @@ nightPlot$set(
   width = 300
 )
 cat(nightPlot$html(chartId="chart2"))
+```
+
+<h5>Where is the Stack?</h5>
+You might notice that we are missing the stacked area.  With micropolar version 0.1.1, we can now accomplish this also.
+<div class="row">
+<div id = "chart3" class = "span4"></div>
+<div id = "chart4" class = "span4"></div>
+</div>
+
+```{r}
+nightPlot <- rCharts$new()
+nightPlot$setLib( path )
+nightPlot$templates$script = paste(getwd(),"stackedArea.html",sep="/")
+nightPlot$set(
+  #remove [1:12] if you want Before and After to show on same plot
+  data = make_dataset( subset(Night, Regime == "Before")[,c("Month","Deaths","Cause")] ),
+  radialDomain = c( 0, ceiling( max(night.df$rate) ) ),
+  angularDomain = 
+    night.df$month[1:12],
+  additionalAngularEndTick = F,
+  margin = 35,
+  originTheta = -90,
+  radialAxisTheta = -30,
+  type = "StackedAreaChart",
+  minorTicks = 0,
+  radialTicksSuffix = '',
+  height = 300,
+  width = 300
+)
+cat(nightPlot$html(chartId="chart3"))
+
+nightPlot <- rCharts$new()
+nightPlot$setLib( path )
+nightPlot$templates$script = paste(getwd(),"stackedArea.html",sep="/")
+nightPlot$set(
+  #remove [1:12] if you want Before and After to show on same plot
+  data = make_dataset( subset(Night, Regime == "After")[,c("Month","Deaths","Cause")] ),
+  radialDomain = c( 0, ceiling( max(night.df$rate) ) ),
+  angularDomain = 
+    night.df$month[13:24],
+  additionalAngularEndTick = F,
+  margin = 35,
+  originTheta = -90,
+  radialAxisTheta= -30,
+  type = "StackedAreaChart",
+  minorTicks = 0,
+  radialTicksSuffix = '',
+  height = 300,
+  width = 300
+)
+cat(nightPlot$html(chartId="chart4"))
 ```
 
 ### Static Versions from Rdatasets Post
