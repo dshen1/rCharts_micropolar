@@ -116,7 +116,7 @@ autoplot(managers[,1]) + coord_polar() +
 ![plot of chunk unnamed-chunk-3](assets/fig/unnamed-chunk-3.png) 
 
 
-Until yesterday, getting an interactive `d3js` version required an inordinate amount of work.  Now we have [`micropolar`](http://micropolar.org) from Chris Viau.  `rCharts` author Ramnath Vaidyanathan quickly made `micropolar` accessible as detailed [here](http://rcharts.io/howitworks/micropolar).  Let's see how we can use it with our return data.  Unfortunately, the newest release broke the x labels, but I'm sure we will get that worked out.
+Until yesterday, getting an interactive `d3js` version required an inordinate amount of work.  Now we have [`micropolar`](http://micropolar.org) from Chris Viau.  `rCharts` author Ramnath Vaidyanathan quickly made `micropolar` accessible as detailed [here](http://rcharts.io/howitworks/micropolar).  Let's see how we can use it with our return data.
 
 
 ```r
@@ -127,7 +127,7 @@ make_dataset = function(x, y, data = data){
 
 retData <- data.frame(
   # 0 to nrow scaled to 360 since 360 deg in circle
-  0:(NROW(managers)-1) * 360/NROW(managers),
+  1:(NROW(managers)),#-1),# * 360/NROW(managers),
   # make numeric javascript date
   as.numeric(as.POSIXct(index(managers[,1])))*1000,
   format(index(managers),"%b %Y"),
@@ -145,14 +145,15 @@ retLine$set(
   type = "linePlot",
   originTheta = 0,
   radialAxisTheta = 0,
-  #angularDomain = #retData$month,
-  #   paste0(
-  #    "#!d3.time.format('%b %Y')(new Date(",
-  #    retData$date[c(seq(1,NROW(retData),6),NROW(retData))],
-  #   "))!#"),
+  angularDomain = #as.character(round(retData$x,2)),#retData$date[c(1,NROW(retData))],
+     paste0(
+      "#!d3.time.format('%b %Y')(new Date(",
+      retData$date[c(seq(1,NROW(retData),6),NROW(retData))],
+     "))!#"),
+  hideFirstTick = FALSE,
   angularTicksSuffix = '',
   tickOrientation = "horizontal",
-  #minorTicks = 6,
+  minorTicks = 5,
   flip = TRUE,
   height = 400,
   width = 400
